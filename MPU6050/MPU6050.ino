@@ -25,12 +25,14 @@ float angle_pitch_output, angle_roll_output;
 long loop_timer;
 int temp;
 
-void setup() {
+void setup() 
+{
   lcd.begin(16, 2);
   lcd.print("Angle:");
   Wire.begin();                                                        //Start I2C as master
   setup_mpu_6050_registers();                                          //Setup the registers of the MPU-6050 
-  for (int cal_int = 0; cal_int < 1000 ; cal_int ++){                  
+  for (int cal_int = 0; cal_int < 1000 ; cal_int ++)
+  {                  
     read_mpu_6050_data();                                              //Read the raw data from the MPU-6050
     gyro_x_cal += gyro_x;                                              //Add the gyro x offset to the gyro_x_cal variable
     gyro_y_cal += gyro_y;                                              //Add the gyro y offset to the gyro_y_cal variable
@@ -46,8 +48,8 @@ void setup() {
   loop_timer = micros();                                               //Reset the loop timer
 }
 
-void loop(){
-
+void loop()
+{
   read_mpu_6050_data();   
  //Subtract the offset values from the raw gyro values
   gyro_x -= gyro_x_cal;                                                
@@ -70,11 +72,13 @@ void loop(){
   angle_pitch_acc -= 0.0;                                              //Accelerometer calibration value for pitch
   angle_roll_acc -= 0.0;                                               //Accelerometer calibration value for roll
 
-  if(set_gyro_angles){                                                 //If the IMU is already started
+  if(set_gyro_angles)
+  {                                                 //If the IMU is already started
     angle_pitch = angle_pitch * 0.9996 + angle_pitch_acc * 0.0004;     //Correct the drift of the gyro pitch angle with the accelerometer pitch angle
     angle_roll = angle_roll * 0.9996 + angle_roll_acc * 0.0004;        //Correct the drift of the gyro roll angle with the accelerometer roll angle
   }
-  else{                                                                //At first start
+  else
+  {                                                                //At first start
     angle_pitch = angle_pitch_acc;                                     //Set the gyro pitch angle equal to the accelerometer pitch angle 
     angle_roll = angle_roll_acc;                                       //Set the gyro roll angle equal to the accelerometer roll angle 
     set_gyro_angles = true;                                            //Set the IMU started flag
@@ -90,7 +94,8 @@ void loop(){
   
 }
 
-void setup_mpu_6050_registers(){
+void setup_mpu_6050_registers()
+{
   //Activate the MPU-6050
   Wire.beginTransmission(0x68);                                        //Start communicating with the MPU-6050
   Wire.write(0x6B);                                                    //Send the requested starting register
@@ -109,7 +114,8 @@ void setup_mpu_6050_registers(){
 }
 
 
-void read_mpu_6050_data(){                                             //Subroutine for reading the raw gyro and accelerometer data
+void read_mpu_6050_data()
+{                                             //Subroutine for reading the raw gyro and accelerometer data
   Wire.beginTransmission(0x68);                                        //Start communicating with the MPU-6050
   Wire.write(0x3B);                                                    //Send the requested starting register
   Wire.endTransmission();                                              //End the transmission
