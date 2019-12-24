@@ -1,3 +1,6 @@
+//DEMO CODE 
+//Angle measurement using MUP6050
+//Version: 1.0 (December 2019)
 //Gyro - Arduino UNO R3
 //VCC  -  5V
 //GND  -  GND
